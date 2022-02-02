@@ -1,6 +1,6 @@
 {
-  "name": "consequent",
-  "description": "next.js / ts / tailwind starting point",
+  "name": "acrolect",
+  "description": "",
   "version": "0.0.1",
   "scripts": {
     "build": "next build",
