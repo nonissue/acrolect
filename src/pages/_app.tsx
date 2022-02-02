@@ -33,7 +33,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
       >
         <SiteContextProvider>
           <Head>
-            <title>GDSH.IT</title>
+            <title>acrolect</title>
           </Head>
 
           {getLayout(<Component {...pageProps} />, pageProps)}

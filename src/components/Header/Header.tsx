@@ -18,15 +18,8 @@ const Header = () => {
               <Link href="/">
                 <a className="flex flex-row font-mono text-base tracking-tight text-indigo-900 dark:text-pink-300 uppercase sm:items-center sm:text-2xl">
                   <span className="font-sans text-4xl font-black -tracking-wider lowercase">
-                    g
-                    <span className="hidden text-indigo-900/60 dark:text-indigo-500/100">
-                      oo
-                    </span>
-                    dsh.it
+                    acrolect
                   </span>
-                  {/* <span className="block justify-end items-end py-0.5 px-2 ml-2 text-sm font-bold tracking-tighter text-indigo-500 dark:text-indigo-200 lowercase align-bottom bg-indigo-100/90 dark:bg-slate-700/90 rounded-xl">
-                    .it
-                  </span> */}
                 </a>
               </Link>
             </div>
