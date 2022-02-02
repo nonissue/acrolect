@@ -6,7 +6,7 @@ type Props = {
 
 function Layout({ children }: Props): React.ReactElement {
   return (
-    <div className="flex flex-col min-h-screen font-sans text-slate-700 dark:text-slate-100">
+    <div className="flex flex-col min-h-screen font-sans text-slate-700 dark:text-slate-100 bg-transparent backdrop-blur-sm">
       <Header />
       <div className="relative z-10 grow shrink max-w-3xl padded-container">
         <div className="min-w-full ">{children}</div>
