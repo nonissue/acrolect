@@ -3,7 +3,7 @@
 const Footer = () => {
   return (
     // <div className="flex static bottom-0 z-0 flex-col justify-start px-6 md:px-8 mx-auto mb-8 max-w-3xl">
-    <div className="relative mb-8">
+    <div className="absolute bottom-0 grow pb-8 mx-auto w-full">
       <div className="font-bold leading-relaxed text-center text-slate-900 dark:text-slate-50 capitalize border-0 border-slate-300 dark:border-slate-600">
         <span
           role="img"

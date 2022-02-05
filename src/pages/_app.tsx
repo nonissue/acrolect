@@ -6,6 +6,7 @@ import Head from 'next/head';
 import { ThemeProvider } from 'next-themes';
 import Inspect from 'inspx';
 import { SiteContextProvider } from 'src/lib/context';
+import { Header, Footer } from 'src/components';
 
 import 'src/styles/app.css';
 
@@ -35,8 +36,12 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
           <Head>
             <title>acrolect</title>
           </Head>
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            {getLayout(<Component {...pageProps} />, pageProps)}
 
-          {getLayout(<Component {...pageProps} />, pageProps)}
+            <Footer />
+          </div>
         </SiteContextProvider>
       </ThemeProvider>
     </Inspect>
