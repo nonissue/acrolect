@@ -1,5 +1,3 @@
-import { Header, Footer } from 'src/components';
-
 type Props = {
   children: React.ReactElement;
 };

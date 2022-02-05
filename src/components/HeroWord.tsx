@@ -9,7 +9,7 @@ export const HeroWord = ({ word }: { word: WordItem }) => {
       <p className="block mb-4 font-mono text-sm tracking-widest text-slate-400 uppercase">
         {word.publishedDate.split('T')[0]}
       </p>
-      <h1 className="underline underline-offset-4 mt-4 mb-8 font-serif text-4xl font-bold text-slate-700 dark:text-slate-100 sm:text-6xl">
+      <h1 className="mt-4 mb-8 font-serif text-4xl font-bold text-slate-700 dark:text-slate-100 underline underline-offset-4 sm:text-6xl">
         {word.title}
       </h1>
       <p className="mt-8 mb-4 font-sans text-xl text-slate-600 dark:text-slate-300 first-letter:capitalize sm:text-2xl sm:leading-relaxed">
