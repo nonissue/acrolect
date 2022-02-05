@@ -1,4 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { PrismaClient, Prisma } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 const handler = async (
   req: NextApiRequest,
@@ -16,13 +19,49 @@ const handler = async (
 };
 
 async function handleGET(res: NextApiResponse) {
-  const result = 'Hello world!';
+  let result;
+  try {
+    result = await prisma.word.findMany({});
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error });
+  }
 
   return res.status(200).json(result);
 }
 
-async function handlePOST(_req: NextApiRequest, res: NextApiResponse) {
-  const result = 'You posted!';
+// - [ ] fetch definition IF MISSING after create, then update
+// - [x] handle collision
+async function handlePOST(req: NextApiRequest, res: NextApiResponse) {
+  const { title, definition, published, publishedDate } = req.body;
+
+  const formattedDate = publishedDate ? new Date(publishedDate) : new Date();
+
+  let result;
+
+  try {
+    result = await prisma.word.create({
+      data: {
+        title: title.toLowerCase(),
+        definition,
+        published,
+        publishedDate: formattedDate,
+      },
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return res
+          .status(422)
+          .json({ code: 422, message: 'Error: Word already exists' });
+      } else {
+        console.log(error);
+        return res.status(500).json(error);
+      }
+    } else {
+      throw error;
+    }
+  }
 
   return res.status(201).json(result);
 }
