@@ -4,6 +4,8 @@
   "version": "0.0.1",
   "scripts": {
     "build": "next build",
+    "vercel-build": "yarn prisma:generate && next build",
+    "prisma:generate:dataproxy": "PRISMA_CLIENT_ENGINE_TYPE=\"dataproxy\" prisma generate",
     "dev": "next",
     "lint": "eslint --ext .ts,.tsx --cache . && yarn next lint",
     "start": "next start",
