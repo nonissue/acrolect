@@ -29,7 +29,7 @@ export default class Document extends NextDocument {
             crossOrigin="anonymous"
           />
         </Head>
-        <body className="text-slate-900 dark:text-slate-100 dark:bg-gray-800">
+        <body className="text-slate-900 dark:text-slate-100 bg-slate-100 dark:bg-slate-800">
           <Main />
           <NextScript />
         </body>
