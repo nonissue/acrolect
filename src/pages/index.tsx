@@ -1,8 +1,9 @@
-import { GetStaticProps, NextPageWithLayout } from 'next';
+import { GetStaticProps } from 'next';
 import { PrismaClient, Prisma } from '@prisma/client';
 import { WordItem } from 'src/types';
-import { getLayout } from 'src/layouts/Layout';
+import { getLayout } from 'src/layouts/IndexLayout';
 import { HeroWord } from 'src/components/HeroWord';
+import { PageWithLayout } from 'src/types';
 
 const prisma = new PrismaClient();
 
@@ -30,7 +31,7 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-const IndexPage: NextPageWithLayout<{ wordJSON: string }> = ({ wordJSON }) => {
+const IndexPage: PageWithLayout<{ wordJSON: string }> = ({ wordJSON }) => {
   const word: WordItem = JSON.parse(wordJSON);
 
   return (
