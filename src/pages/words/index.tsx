@@ -37,13 +37,16 @@ const WordsList: PageWithLayout<{ wordsJSON: string }> = ({ wordsJSON }) => {
 
   return (
     <section className="p-8 text-base text-slate-600 dark:text-slate-200 bg-slate-50 dark:bg-slate-700 shadow-2xl shadow-slate-200 dark:shadow-slate-900/70 sm:py-10 sm:px-12 sm:rounded-none">
-      <ul className="font-serif text-3xl font-bold leading-loose text-center divide-y divide-slate-300 dark:divide-slate-400/40 divide-dotted">
+      <ul className="divide-y divide-slate-300 dark:divide-slate-400/40 divide-dotted">
         {words.map((word) => {
           return (
-            <li key={word.title} className="capitalize">
+            <li key={word.title} className="py-4">
               <Link href={`/words/${word.title}`}>
-                <a>{word.title}</a>
+                <a className="font-serif text-3xl font-bold leading-loose capitalize">
+                  {word.title}
+                </a>
               </Link>
+              <p className="">{word.definition}</p>
             </li>
           );
         })}

@@ -1,6 +1,7 @@
 import type { NextComponentType, NextPageContext } from 'next';
 import type { AppProps } from 'next/app';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type PageWithLayout<P> = NextComponentType<NextPageContext, any, P> & {
   getLayout?: (
     page: JSX.Element,
