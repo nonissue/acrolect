@@ -1,20 +1,17 @@
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { PrismaClient, Prisma } from '@prisma/client';
-import { WordItem } from 'src/types';
+import { PageWithLayout, WordItem } from 'src/types';
 import { getLayout } from 'src/layouts/IndexLayout';
 import { HeroWord } from 'src/components/HeroWord';
-// import superjson from 'superjson';
-import { PageWithLayout } from 'src/types';
 
 const prisma = new PrismaClient();
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   let word = undefined;
 
   try {
-    word = await prisma.word.findMany({
-      where: { published: true },
-      orderBy: { publishedDate: 'desc' },
+    word = await prisma.word.findFirst({
+      where: { published: true, title: context.params?.title as string },
     });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -27,12 +24,16 @@ export const getStaticProps: GetStaticProps = async () => {
     throw e;
   }
 
+  if (!word) {
+    throw new Error('NO word found');
+  }
+
   return {
-    props: { wordJSON: JSON.stringify(word[0]) },
+    props: { wordJSON: JSON.stringify(word) },
   };
 };
 
-const IndexPage: PageWithLayout<{ wordJSON: string }> = ({ wordJSON }) => {
+const WordPage: PageWithLayout<{ wordJSON: string }> = ({ wordJSON }) => {
   const word: WordItem = JSON.parse(wordJSON);
 
   return (
@@ -42,7 +43,7 @@ const IndexPage: PageWithLayout<{ wordJSON: string }> = ({ wordJSON }) => {
   );
 };
 
-IndexPage.getLayout = getLayout;
+WordPage.getLayout = getLayout;
 
 // eslint-disable-next-line import/no-default-export
-export default IndexPage;
+export default WordPage;

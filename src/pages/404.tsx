@@ -1,4 +1,4 @@
-import { getLayout } from 'src/layouts/Layout';
+import { getLayout } from 'src/layouts/IndexLayout';
 
 const Custom404 = () => (
   <section className="py-12 text-center">
