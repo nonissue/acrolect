@@ -3,6 +3,7 @@ import { PrismaClient, Prisma } from '@prisma/client';
 import { WordItem } from 'src/types';
 import { getLayout } from 'src/layouts/Layout';
 import { HeroWord } from 'src/components/HeroWord';
+import superjson from 'superjson';
 
 const prisma = new PrismaClient();
 
@@ -31,7 +32,7 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const IndexPage: NextPageWithLayout<{ wordJSON: string }> = ({ wordJSON }) => {
-  const word: WordItem = JSON.parse(wordJSON);
+  const word: WordItem = superjson.parse(wordJSON);
 
   return (
     <section className="text-base text-slate-600 dark:text-slate-300 divide-y-0 divide-slate-300 dark:divide-slate-700 divide-dashed">
