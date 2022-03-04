@@ -4,12 +4,12 @@ import { ThemeProvider } from 'next-themes';
 import { withTRPC } from '@trpc/next';
 import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
 import { loggerLink } from '@trpc/client/links/loggerLink';
-import superjson from 'superjson';
 import { AppRouter } from './api/trpc/[trpc]';
 import Inspect from 'inspx';
 import { SiteContextProvider } from 'src/lib/context';
 import { AppPropsWithLayout } from 'src/types';
 import { Header } from 'src/components';
+import superjson from 'superjson';
 
 import 'src/styles/app.css';
 
@@ -59,15 +59,18 @@ function getBaseUrl() {
 
 export default withTRPC<AppRouter>({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  config() {
+  config({ ctx }) {
     /**
      * If you want to use SSR, you need to use the server's full URL
      * @link https://trpc.io/docs/ssr
      */
+    const url = getBaseUrl();
+
     return {
       /**
        * @link https://trpc.io/docs/links
        */
+      url,
       links: [
         // adds pretty logs to your console in development and logs errors in production
         loggerLink({
@@ -79,6 +82,17 @@ export default withTRPC<AppRouter>({
           url: `${getBaseUrl()}/api/trpc`,
         }),
       ],
+      headers: () => {
+        if (ctx?.req) {
+          // on ssr, forward client's headers to the server
+          return {
+            ...ctx.req.headers,
+            'x-ssr': '1',
+          };
+        }
+        return {};
+      },
+
       /**
        * @link https://trpc.io/docs/data-transformers
        */
@@ -96,17 +110,17 @@ export default withTRPC<AppRouter>({
   /**
    * Set headers or status code when doing SSR
    */
-  responseMeta({ clientErrors }) {
-    if (clientErrors.length) {
-      // propagate http first error from API calls
-      return {
-        status: clientErrors[0].data?.httpStatus ?? 500,
-      };
-    }
+  // responseMeta({ clientErrors }) {
+  //   if (clientErrors.length) {
+  //     // propagate http first error from API calls
+  //     return {
+  //       status: clientErrors[0].data?.httpStatus ?? 500,
+  //     };
+  //   }
 
-    // for app caching with SSR see https://trpc.io/docs/caching
+  //   // for app caching with SSR see https://trpc.io/docs/caching
 
-    return {};
-  },
+  //   return {};
+  // },
 })(MyApp);
 // export default MyApp;

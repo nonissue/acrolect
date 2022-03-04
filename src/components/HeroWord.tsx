@@ -4,10 +4,10 @@ export const HeroWord = ({ word }: { word: WordItem }) => {
   console.log(word);
   return (
     // <div className=" overflow-y-clip max-h-96 ">
-    <div className="z-0 p-8 text-center bg-slate-50 dark:bg-gradient-to-tr dark:from-slate-600 dark:via-slate-700 dark:to-slate-700 border-0 border-slate-400/50 shadow-2xl shadow-slate-200 dark:shadow-slate-900/70 sm:py-10 sm:px-12 sm:rounded-none">
+    <div className="z-0 p-8 text-center bg-slate-50 dark:bg-gradient-to-tr dark:from-slate-800 dark:via-slate-800 dark:to-slate-800 border-0 border-slate-400/50 sm:py-10 sm:px-12 sm:rounded-none">
       {/* Need to actually resolve vertical positioning of this so it's in center of screen */}
       <p className="block mb-4 font-mono text-sm tracking-widest text-slate-400 uppercase">
-        {word.publishedDate.split('T')[0]}
+        {word.publishedDate.toLocaleString()}
       </p>
       <h1 className="mt-4 mb-8 font-serif text-4xl font-bold text-slate-700 dark:text-slate-100 underline underline-offset-4 sm:text-6xl">
         {word.title}

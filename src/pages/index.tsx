@@ -1,21 +1,27 @@
 import { GetStaticProps } from 'next';
 import { PrismaClient, Prisma } from '@prisma/client';
+import superjson from 'superjson';
 import { WordItem } from 'src/types';
+
 import { getLayout } from 'src/layouts/IndexLayout';
 import { HeroWord } from 'src/components/HeroWord';
-// import superjson from 'superjson';
 import { PageWithLayout } from 'src/types';
+import { trpc } from 'src/utils/trpc';
 
 const prisma = new PrismaClient();
 
 export const getStaticProps: GetStaticProps = async () => {
-  let word = undefined;
+  let wordResult;
+  let word;
 
   try {
-    word = await prisma.word.findMany({
+    wordResult = await prisma.word.findMany({
       where: { published: true },
       orderBy: { publishedDate: 'desc' },
+      take: 1,
     });
+
+    word = wordResult[0];
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === 'P2002') {
@@ -28,15 +34,29 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 
   return {
-    props: { wordJSON: JSON.stringify(word[0]) },
+    props: { wordJSON: superjson.stringify(word) },
   };
 };
 
 const IndexPage: PageWithLayout<{ wordJSON: string }> = ({ wordJSON }) => {
-  const word: WordItem = JSON.parse(wordJSON);
+  let word: WordItem;
+  if (wordJSON) {
+    word = superjson.parse(wordJSON);
+    console.log(word);
+  } else {
+    console.log('Not ready yet');
+    return <div>LOADING</div>;
+  }
+
+  const wordQuery = trpc.useQuery(['hello', { text: 'client' }]);
+
+  if (wordQuery.status !== 'success' || !wordQuery.data) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <section className="text-base text-slate-600 dark:text-slate-300 divide-y-0 divide-slate-300 dark:divide-slate-700 divide-dashed">
+      {/* {wordQuery.data.greeting} */}
       <HeroWord word={word} />
     </section>
   );

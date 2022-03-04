@@ -4,12 +4,12 @@ import { PrismaClient, Prisma } from '@prisma/client';
 import { WordsList } from 'src/types';
 import { getLayout } from 'src/layouts/Layout';
 import { PageWithLayout } from 'src/types';
+import superjson from 'superjson';
 
 const prisma = new PrismaClient();
 
 export const getServerSideProps: GetServerSideProps = async () => {
   let wordsList = undefined;
-  console.log('Fetching words');
 
   try {
     wordsList = await prisma.word.findMany({
@@ -28,17 +28,27 @@ export const getServerSideProps: GetServerSideProps = async () => {
   }
 
   return {
-    props: { wordsJSON: JSON.stringify(wordsList) },
+    props: { wordsJSON: superjson.stringify(wordsList) },
   };
 };
 
-const WordsList: PageWithLayout<{ wordsJSON: string }> = ({ wordsJSON }) => {
-  const words: WordsList = JSON.parse(wordsJSON);
+const WordsListPage: PageWithLayout<{ wordsJSON: string }> = ({
+  wordsJSON,
+}) => {
+  let words: WordsList | undefined = undefined;
+
+  if (wordsJSON) {
+    words = superjson.parse(wordsJSON);
+  }
+
+  if (words?.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <section className="p-8 text-base text-slate-600 dark:text-slate-200 bg-slate-50 dark:bg-slate-700 shadow-2xl shadow-slate-200 dark:shadow-slate-900/70 sm:py-10 sm:px-12 sm:rounded-none">
       <ul className="divide-y divide-slate-300 dark:divide-slate-400/40 divide-dotted">
-        {words.map((word) => {
+        {words?.map((word) => {
           return (
             <li key={word.title} className="py-4">
               <Link href={`/words/${word.title}`}>
@@ -55,7 +65,7 @@ const WordsList: PageWithLayout<{ wordsJSON: string }> = ({ wordsJSON }) => {
   );
 };
 
-WordsList.getLayout = getLayout;
+WordsListPage.getLayout = getLayout;
 
 // eslint-disable-next-line import/no-default-export
-export default WordsList;
+export default WordsListPage;
