@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { MoonIcon, SunIcon } from '@heroicons/react/outline';
-
 export const ThemeChanger: React.FunctionComponent = () => {
   const [mounted, setMounted] = useState(false);
   const { theme, resolvedTheme, setTheme } = useTheme();
