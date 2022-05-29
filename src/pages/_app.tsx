@@ -1,17 +1,18 @@
-import Head from 'next/head';
-import { AppType } from 'next/dist/shared/lib/utils';
-import { ThemeProvider } from 'next-themes';
-import { withTRPC } from '@trpc/next';
 import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
 import { loggerLink } from '@trpc/client/links/loggerLink';
-import { AppRouter } from './api/trpc/[trpc]';
+import { withTRPC } from '@trpc/next';
 import Inspect from 'inspx';
-import { SiteContextProvider } from 'src/lib/context';
-import { AppPropsWithLayout } from 'src/types';
-import { Header } from 'src/components';
+import { ThemeProvider } from 'next-themes';
+import { AppType } from 'next/dist/shared/lib/utils';
+import Head from 'next/head';
 import superjson from 'superjson';
 
+import { AppRouter } from './api/trpc/[trpc]';
+
+import { Header } from 'src/components';
+import { SiteContextProvider } from 'src/lib/context';
 import 'src/styles/app.css';
+import { AppPropsWithLayout } from 'src/types';
 
 const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout || ((page) => page);

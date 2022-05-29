@@ -1,10 +1,10 @@
+import { Prisma, PrismaClient } from '@prisma/client';
 import { GetStaticProps } from 'next';
-import { PrismaClient, Prisma } from '@prisma/client';
 import superjson from 'superjson';
-import { WordItem } from 'src/types';
 
-import { getLayout } from 'src/layouts/IndexLayout';
 import { HeroWord } from 'src/components/HeroWord';
+import { getLayout } from 'src/layouts/IndexLayout';
+import { WordItem } from 'src/types';
 import { PageWithLayout } from 'src/types';
 import { trpc } from 'src/utils/trpc';
 
@@ -42,9 +42,7 @@ const IndexPage: PageWithLayout<{ wordJSON: string }> = ({ wordJSON }) => {
   let word: WordItem;
   if (wordJSON) {
     word = superjson.parse(wordJSON);
-    console.log(word);
   } else {
-    console.log('Not ready yet');
     return <div>LOADING</div>;
   }
 

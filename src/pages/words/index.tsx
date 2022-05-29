@@ -1,10 +1,10 @@
-import { GetServerSideProps } from 'next';
+import { Prisma, PrismaClient } from '@prisma/client';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Link from 'next/link';
-import { PrismaClient, Prisma } from '@prisma/client';
-import { WordsList } from 'src/types';
-import { getLayout } from 'src/layouts/Layout';
-import { PageWithLayout } from 'src/types';
 import superjson from 'superjson';
+
+import { getLayout } from 'src/layouts/Layout';
+import { WordsList } from 'src/types';
 
 const prisma = new PrismaClient();
 
@@ -32,13 +32,13 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 };
 
-const WordsListPage: PageWithLayout<{ wordsJSON: string }> = ({
-  wordsJSON,
-}) => {
+const WordsListPage = (
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) => {
   let words: WordsList | undefined = undefined;
 
-  if (wordsJSON) {
-    words = superjson.parse(wordsJSON);
+  if (props.wordsJSON) {
+    words = superjson.parse(props.wordsJSON);
   }
 
   if (words?.length === 0) {
