@@ -31,9 +31,9 @@ export const ThemeChanger: React.FunctionComponent = () => {
       aria-label="Theme Toggle"
     >
       {theme === 'light' ? (
-        <MoonIcon className="w-5 h-5" />
+        <MoonIcon className="w-4 h-4" />
       ) : (
-        <SunIcon className="w-5 h-5" />
+        <SunIcon className="w-4 h-4" />
       )}
     </button>
   );

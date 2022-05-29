@@ -1,8 +1,7 @@
-import Link from 'next/link';
-// import { QuestionMarkCircleIcon, ArchiveIcon } from '@heroicons/react/outline';
 import { ArchiveIcon } from '@heroicons/react/outline';
+import Link from 'next/link';
+
 import { ThemeChanger } from 'src/components';
-// import * as metadata from 'data/meta.json';
 
 const Header = () => {
   return (
